@@ -7,11 +7,16 @@ const tryRenderInput = (state, label) => {
   }
 };
 
-function Task({ state, label }) {
+
+function Task({ state, label, id, onTaskCheckboxChange}) {
+
+  function onCheckboxChange() {
+    onTaskCheckboxChange(id);
+  }
     return (
         <li className= { state }>
                 <div className="view">
-                  <input className="toggle" type="checkbox" checked = {state === 'completed'} />
+                  <input onChange = { onCheckboxChange } className="toggle" type="checkbox" checked = {state === 'completed'} />
                   <label>
                     <span className="description">{ label }</span>
                     <span className="created">created 17 seconds ago</span>
