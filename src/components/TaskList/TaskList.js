@@ -1,13 +1,16 @@
 import './TaskList.css';
-import Task from './Task'
+import Task from '../Task/Task'
 
-function TaskList({ tasksArray,  onTaskCheckboxChange}) {
+function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited}) {
     
     return (
         <ul className="todo-list">
           {tasksArray.map((item) => {
             return (
-              <Task state={item.state} label={item.label} id = {item.id} onTaskCheckboxChange = {onTaskCheckboxChange} />
+              <Task
+                state={item.state} label={item.label} id = {item.id}
+                onTaskCheckboxChange = {onTaskCheckboxChange}
+                onDelited = { onDelited } />
             );
           })}
         </ul>

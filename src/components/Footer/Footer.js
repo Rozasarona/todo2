@@ -1,5 +1,5 @@
 import './Footer.css';
-import TasksFilter from './TasksFilter';
+import TasksFilter from '../TasksFilter/TasksFilter';
 
 function Footer() {
     return (

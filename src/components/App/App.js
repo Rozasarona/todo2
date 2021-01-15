@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
-import Header from './Header';
-import TaskList from './TaskList';
-import Footer from './Footer';
+import Header from '../Header/Header';
+import TaskList from '../TaskList/TaskList';
+import Footer from '../Footer/Footer';
 
 class App extends React.Component {
   constructor() {
@@ -50,12 +50,25 @@ this.onTaskCheckboxChange = this.onTaskCheckboxChange.bind(this);
   //     }))
 
   }
+
+  deleteTask = (taskId) => {
+    //console.log(id);
+    const arrTasks = this.state.tasks.filter((item) => item.id != taskId);
+
+    this.setState({ tasks: arrTasks });
+  }
+
+  
+
   render() {
       return (
           <section className="todoapp">
             <Header />
             <section className="main">
-              <TaskList tasksArray = { this.state.tasks } onTaskCheckboxChange = { this.onTaskCheckboxChange }/>
+              <TaskList
+                tasksArray = { this.state.tasks }
+                onTaskCheckboxChange = { this.onTaskCheckboxChange }
+                onDelited = { this.deleteTask }/>
               <Footer />
             </section>
           </section>

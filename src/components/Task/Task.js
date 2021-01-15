@@ -8,11 +8,15 @@ const tryRenderInput = (state, label) => {
 };
 
 
-function Task({ state, label, id, onTaskCheckboxChange}) {
+function Task({ state, label, id, onTaskCheckboxChange, onDelited}) {
 
   function onCheckboxChange() {
     onTaskCheckboxChange(id);
   }
+
+  function deleteTask() {
+  onDelited(id);
+}
     return (
         <li className= { state }>
                 <div className="view">
@@ -22,7 +26,9 @@ function Task({ state, label, id, onTaskCheckboxChange}) {
                     <span className="created">created 17 seconds ago</span>
                   </label>
                   <button className="icon icon-edit"></button>
-                  <button className="icon icon-destroy"></button>
+                  <button
+                    className="icon icon-destroy"
+                    onClick = { deleteTask }></button>
                 </div>
                 { tryRenderInput(state,label) }
               </li>
