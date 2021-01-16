@@ -53,7 +53,7 @@ this.onTaskCheckboxChange = this.onTaskCheckboxChange.bind(this);
 
   deleteTask = (taskId) => {
     //console.log(id);
-    const arrTasks = this.state.tasks.filter((item) => item.id != taskId);
+    const arrTasks = this.state.tasks.filter((item) => item.id !== taskId);
 
     this.setState({ tasks: arrTasks });
   }
