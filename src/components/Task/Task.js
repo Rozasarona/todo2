@@ -1,4 +1,5 @@
 import './Task.css';
+
 const tryRenderInput = (state, label) => {
   if (state === 'editing') {
     return (
