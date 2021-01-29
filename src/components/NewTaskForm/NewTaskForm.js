@@ -26,7 +26,7 @@ class NewTaskForm extends Component {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <input value={this.state.taskName} onInput={this.onInput} className="new-todo" placeholder="What needs to be done?" autofocus/>
+                <input value={this.state.taskName} onInput={this.onInput} className="new-todo" placeholder="What needs to be done?" autoFocus/>
             </form>
         );
     }
