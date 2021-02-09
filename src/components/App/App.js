@@ -10,10 +10,10 @@ class App extends Component {
     super();
     this.state = {
       tasks: [
-        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий' },
-        { id: 2, state: '', label: 'Купить подарки' },
-        { id: 3, state: '', label: 'Помыть котэ' },
-        { id: 4, state: '', label: 'Сделать 50 отжиманий' }
+        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий', date: new Date() },
+        { id: 2, state: '', label: 'Купить подарки', date: new Date() },
+        { id: 3, state: '', label: 'Помыть котэ', date: new Date() },
+        { id: 4, state: '', label: 'Сделать 50 отжиманий', date: new Date() }
       ],
       nextId: 7,
       filterValue: 'all'
@@ -80,7 +80,8 @@ class App extends Component {
           tasks: [...oldState.tasks, {
             id: oldState.nextId,
             state: '',
-            label: taskName
+            label: taskName,
+            date: new Date()
           }],
           nextId: oldState.nextId + 1
     }));
@@ -120,7 +121,7 @@ class App extends Component {
       const filteredTasks = this.state.tasks.filter(x => {
         switch(this.state.filterValue) {
           case 'active':
-            return x.state != 'completed';
+            return x.state !== 'completed';
           case 'completed':
             return x.state === 'completed';
           default:

@@ -12,6 +12,7 @@ function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, on
                 label={item.label}
                 id = {item.id}
                 key = {item.id}
+                date = {item.date}
                 onTaskCheckboxChange = {onTaskCheckboxChange}
                 onDelited = { onDelited }
                 onTaskEdit = { onTaskEdit }

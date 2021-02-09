@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './Task.css';
+import { formatDistanceToNow } from 'date-fns';
 
 class Task extends Component {
   constructor(props) {
@@ -61,6 +62,8 @@ class Task extends Component {
     }
   };
 
+
+
   render() {
     return (
       <li className= { this.props.state }>
@@ -68,7 +71,7 @@ class Task extends Component {
                 <input onChange = { this.onCheckboxChange } className="toggle" type="checkbox" checked = {this.props.state === 'completed'} />
                 <label>
                   <span className="description">{ this.props.label }</span>
-                  <span className="created">created 17 seconds ago</span>
+                  <span className="created">created { formatDistanceToNow(this.props.date)} ago</span>
                 </label>
                 {this.tryRenderEditButton()}
                 <button
