@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import './NewTaskForm.css';
 
@@ -15,7 +16,9 @@ class NewTaskForm extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onTaskCreate(this.state.taskName);
+        const { taskName } = this.state;
+        const { onTaskCreate } = this.props;
+        onTaskCreate(taskName);
         this.setState({ taskName: '' });
     };
 
@@ -24,12 +27,17 @@ class NewTaskForm extends Component {
     }
 
     render() {
+        const { taskName } = this.state;
         return (
             <form onSubmit={this.onSubmit}>
-                <input value={this.state.taskName} onInput={this.onInput} className="new-todo" placeholder="What needs to be done?" autoFocus/>
+                <input value={taskName} onInput={this.onInput} className="new-todo" placeholder="What needs to be done?" />
             </form>
         );
     }
 }
+
+NewTaskForm.propTypes = {
+    onTaskCreate: PropTypes.func.isRequired
+};
 
 export default NewTaskForm;

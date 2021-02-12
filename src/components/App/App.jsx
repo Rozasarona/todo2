@@ -24,21 +24,22 @@ class App extends Component {
 
   onTaskEdit = (taskId) => {
 
-    const editingTask = this.state.tasks.find((item) => item.id === taskId);
+    const { tasks } = this.state;
+    const editingTask = tasks.find((item) => item.id === taskId);
     const newTask = { ...editingTask };
     newTask.state = 'editing';
-    const oldTasks = this.state.tasks;
-    const newTasks = oldTasks.map((item) => {
+    
+    const newTasks = tasks.map((item) => {
       if(item.id === taskId) {
         return newTask;
-      } else {
+      } 
         if(item.state === 'editing') {
           const newItem = { ...item };
             newItem.state = '';
             return newItem;
         }
         return item;
-      }
+      
     });
 
     this.setState({tasks: newTasks});
@@ -47,34 +48,28 @@ class App extends Component {
 
 
   onTaskCheckboxChange(taskId) {
-    const task = this.state.tasks.find((item) => item.id === taskId);
+    const { tasks } = this.state;
+    const task = tasks.find((item) => item.id === taskId);
     const newTask = { ...task};
     if(newTask.state === 'completed') {
       newTask.state = '';
     }
-    else {
-      if(newTask.state === '') {
+    else if(newTask.state === '') {
         newTask.state = 'completed';
       }
-    }
 
-    this.setState ((state) => {
-      return {
+    this.setState ((state) => ({
         tasks: state.tasks.map((item) => (item.id === taskId ? newTask : { ...item}))
-      };
-    })
+      }))
   }
 
-  deleteTask = (taskId) => {
-    const arrTasks = this.state.tasks.filter((item) => item.id !== taskId);
-
-    this.setState({ tasks: arrTasks });
-  }
+  
 
   onTaskCreate(taskName) {
-    if(taskName === null || taskName === undefined) return;
-    taskName = taskName.trim();
-    if(taskName === '' ) return;
+    let nameOfTask = taskName;
+    if(nameOfTask === null || nameOfTask === undefined) return;
+    nameOfTask = nameOfTask.trim();
+    if(nameOfTask === '' ) return;
 
     this.setState((oldState) => ({
           tasks: [...oldState.tasks, {
@@ -87,10 +82,17 @@ class App extends Component {
     }));
   }
 
+  deleteTask = (taskId) => {
+    const { tasks } = this.state;
+    const arrTasks = tasks.filter((item) => item.id !== taskId);
+
+    this.setState({ tasks: arrTasks });
+  }
+
   onTaskLabelUpdate = (taskId, newTaskLabel) => {
     this.setState(oldState => ({
-      tasks: oldState.tasks.map(x => x.id !== taskId ? x : {
-        ...x,
+      tasks: oldState.tasks.map(task => task.id !== taskId ? task : {
+        ...task,
         label: newTaskLabel,
         state: ''
       })
@@ -99,8 +101,8 @@ class App extends Component {
 
   onTaskEditCancel = (taskId) => {
     this.setState(oldState => ({
-      tasks: oldState.tasks.map(x => x.id !== taskId ? x : {
-        ...x,
+      tasks: oldState.tasks.map(task => task.id !== taskId ? task : {
+        ...task,
         state: ''
       })
     }));
@@ -108,7 +110,7 @@ class App extends Component {
 
   onClearCompleted = () => {
     this.setState(oldState => ({
-      tasks: oldState.tasks.filter(x => x.state !== 'completed')
+      tasks: oldState.tasks.filter(task => task.state !== 'completed')
     }));
   };
 
@@ -117,13 +119,15 @@ class App extends Component {
   };
 
   render() {
-      const uncompletedTasksCount = this.state.tasks.filter(x => x.state !== 'completed').length;
-      const filteredTasks = this.state.tasks.filter(x => {
-        switch(this.state.filterValue) {
+    const { tasks } = this.state;
+      const uncompletedTasksCount = tasks.filter(task => task.state !== 'completed').length;
+      const { filterValue } = this.state;
+      const filteredTasks = tasks.filter(task => {
+        switch(filterValue) {
           case 'active':
-            return x.state !== 'completed';
+            return task.state !== 'completed';
           case 'completed':
-            return x.state === 'completed';
+            return task.state === 'completed';
           default:
             return true;
         }
@@ -143,7 +147,7 @@ class App extends Component {
               <Footer
                 uncompletedTasksCount={uncompletedTasksCount}
                 onClearCompleted={this.onClearCompleted}
-                filterValue={this.state.filterValue}
+                filterValue={filterValue}
                 onFilterUpdate={this.onFilterUpdate} />
             </section>
           </section>
