@@ -28,10 +28,12 @@ class App extends Component {
     const editingTask = tasks.find((item) => item.id === taskId);
     const newTask = { ...editingTask };
     newTask.state = 'editing';
-    
+
     const newTasks = tasks.map((item) => {
       if(item.id === taskId) {
         return newTask;
+
+        
       } 
         if(item.state === 'editing') {
           const newItem = { ...item };
@@ -90,6 +92,10 @@ class App extends Component {
   }
 
   onTaskLabelUpdate = (taskId, newTaskLabel) => {
+    let nameOfTask = newTaskLabel;
+    if(nameOfTask === null || nameOfTask === undefined) return;
+    nameOfTask = nameOfTask.trim();
+    if(nameOfTask === '' ) return;
     this.setState(oldState => ({
       tasks: oldState.tasks.map(task => task.id !== taskId ? task : {
         ...task,

@@ -61,6 +61,8 @@ class Task extends Component {
     const { id, label, onTaskEdit } = this.props;
     this.setState({ currentTaskName: label });
     onTaskEdit(id);
+
+   
   };
 
   tryRenderEditButton = () => {
