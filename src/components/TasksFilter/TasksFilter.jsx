@@ -1,21 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TasksFilter.css';
+import * as FilterValues from '../tasksFilterValues';
 
 function TasksFilter({filterValue, onFilterUpdate}) {
     const getClassName = (buttonType) => buttonType === filterValue ? 'selected' : null;
 
     return (
         <ul className="filters">
-                <li><button type="button" onClick={() => onFilterUpdate('all')} className={getClassName('all')}>All</button></li>
-                <li><button type="button" onClick={() => onFilterUpdate('active')} className={getClassName('active')}>Active</button></li>
-                <li><button type="button" onClick={() => onFilterUpdate('completed')} className={getClassName('completed')}>Completed</button></li>
-              </ul>
+            <li><button type="button" onClick={() => onFilterUpdate(FilterValues.ALL)} className={getClassName('FilterValues.ALL')}>All</button></li>
+            <li><button type="button" onClick={() => onFilterUpdate(FilterValues.ACTIVE)} className={getClassName('FilterValues.ACTIVE')}>Active</button></li>
+            <li><button type="button" onClick={() => onFilterUpdate(FilterValues.COMPLETED)} className={getClassName('FilterValues.COMPLETED')}>Completed</button></li>
+        </ul>
     );
 }
 
 TasksFilter.propTypes = {
-    filterValue: PropTypes.oneOf(['all', 'active', 'completed']).isRequired,
+    filterValue: PropTypes.oneOf(['FilterValues.ALL', 'FilterValues.ACTIVE', 'FilterValues.COMPLETED']).isRequired,
     onFilterUpdate: PropTypes.func.isRequired
 };
 
