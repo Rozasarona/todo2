@@ -1,3 +1,6 @@
+https://todo2-rozasarona.vercel.app - ссылка на развернутое приложение
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
