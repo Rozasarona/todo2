@@ -7,30 +7,42 @@ class NewTaskForm extends Component {
     constructor() {
         super();
         this.state = {
-            taskName: ''
+            taskName: '',
+            estimateMinutes: '',
+            estimateSeconds: ''
         };
-
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onInput = this.onInput.bind(this);
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        const { taskName } = this.state;
+        const { taskName, estimateMinutes, estimateSeconds } = this.state;
         const { onTaskCreate } = this.props;
-        onTaskCreate(taskName);
-        this.setState({ taskName: '' });
+        const mins = Number.parseInt(estimateMinutes, 10);
+        const secs = Number.parseInt(estimateSeconds, 10);
+        onTaskCreate(taskName, mins, secs);
+        this.setState({ taskName: '', estimateMinutes: '', estimateSeconds: '' });
     };
 
-    onInput(event) {
+    onTaskNameInput = (event) => {
         this.setState({ taskName: event.target.value });
     }
 
+    onEstimateMinutesInput = (event) => {
+        this.setState({ estimateMinutes: event.target.value });
+    };
+
+    onEstimateSecondsInput = (event) => {
+        this.setState({ estimateSeconds: event.target.value });
+    };
+
     render() {
-        const { taskName } = this.state;
+        const { taskName, estimateMinutes, estimateSeconds } = this.state;
         return (
-            <form onSubmit={this.onSubmit}>
-                <input value={taskName} onInput={this.onInput} className="new-todo" placeholder="What needs to be done?" />
+            <form className="new-todo-form" onSubmit={this.onSubmit}>
+                <input value={taskName} onInput={this.onTaskNameInput} className="new-todo" placeholder="What needs to be done?" />
+                <input value={estimateMinutes} onInput={this.onEstimateMinutesInput} className="new-todo-form__timer" placeholder="Min" />
+                <input value={estimateSeconds} onInput={this.onEstimateSecondsInput} className="new-todo-form__timer" placeholder="Sec" />
+                <input type="submit" style={{display: "none"}} />
             </form>
         );
     }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
+import Timer from '../Timer/Timer';
+
 import './Task.css';
 
 class Task extends Component {
@@ -79,17 +81,21 @@ class Task extends Component {
     return null;
   };
 
-
+  onSetDeadLine = (mins, secs) => {
+    const { id, onTaskSetDeadLine } = this.props;
+    onTaskSetDeadLine(id, mins, secs);
+  };
 
   render() {
-    const { date, label, state } = this.props;
+    const { date, label, state, minutesDeadline, secondsDeadline } = this.props;
     return (
       <li className= { state }>
               <div className="view">
                 <input onChange = { this.onCheckboxChange } className="toggle" type="checkbox" checked = {state === 'completed'} />
                 <label>
-                  <span className="description">{ label }</span>
-                  <span className="created">created { formatDistanceToNow(date)} ago</span>
+                  <span className="title">{ label }</span>
+                  <Timer mins={minutesDeadline} secs={secondsDeadline} onSetDeadLine={this.onSetDeadLine} />
+                  <span className="description">created { formatDistanceToNow(date)} ago</span>
                 </label>
                 {this.tryRenderEditButton()}
                 <button
@@ -108,12 +114,15 @@ Task.propTypes = {
   state: PropTypes.oneOf([ '', 'editing', 'completed' ]).isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   label: PropTypes.string.isRequired,
+  minutesDeadline: PropTypes.number.isRequired,
+  secondsDeadline: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
   onDelited: PropTypes.func.isRequired,
   onTaskCheckboxChange: PropTypes.func.isRequired,
   onTaskLabelUpdate: PropTypes.func.isRequired,
-  onTaskEditCancel: PropTypes.func.isRequired
+  onTaskEditCancel: PropTypes.func.isRequired,
+  onTaskSetDeadLine: PropTypes.func.isRequired
 };
 
 export default Task;

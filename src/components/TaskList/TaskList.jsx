@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './TaskList.css';
 import Task from '../Task/Task'
 
-function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, onTaskLabelUpdate, onTaskEditCancel}) {
+function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, onTaskLabelUpdate, onTaskEditCancel, onTaskSetDeadLine }) {
     
     return (
         <ul className="todo-list">
@@ -11,6 +11,8 @@ function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, on
               <Task
                 state={item.state}
                 label={item.label}
+                minutesDeadline={item.minutesDeadline}
+                secondsDeadline={item.secondsDeadline}
                 id = {item.id}
                 key = {item.id}
                 date = {item.date}
@@ -18,7 +20,8 @@ function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, on
                 onDelited = { onDelited }
                 onTaskEdit = { onTaskEdit }
                 onTaskLabelUpdate={onTaskLabelUpdate}
-                onTaskEditCancel={onTaskEditCancel} />
+                onTaskEditCancel={onTaskEditCancel}
+                onTaskSetDeadLine={onTaskSetDeadLine} />
             ))}
         </ul>
     );
@@ -35,7 +38,8 @@ TaskList.propTypes = {
   onDelited: PropTypes.func.isRequired,
   onTaskEdit: PropTypes.func.isRequired,
   onTaskLabelUpdate: PropTypes.func.isRequired,
-  onTaskEditCancel: PropTypes.func.isRequired
+  onTaskEditCancel: PropTypes.func.isRequired,
+  onTaskSetDeadLine: PropTypes.func.isRequired
 };
 
 export default TaskList;

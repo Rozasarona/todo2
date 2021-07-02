@@ -10,10 +10,10 @@ class App extends Component {
     super();
     this.state = {
       tasks: [
-        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий', date: new Date() },
-        { id: 2, state: '', label: 'Купить подарки', date: new Date() },
-        { id: 3, state: '', label: 'Помыть котэ', date: new Date() },
-        { id: 4, state: '', label: 'Сделать 50 отжиманий', date: new Date() }
+        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий', date: new Date(), minutesDeadline: 0, secondsDeadline: 0 },
+        { id: 2, state: '', label: 'Купить подарки', date: new Date(), minutesDeadline: 5, secondsDeadline: 0 },
+        { id: 3, state: '', label: 'Помыть котэ', date: new Date(), minutesDeadline: 10, secondsDeadline: 30 },
+        { id: 4, state: '', label: 'Сделать 50 отжиманий', date: new Date(), minutesDeadline: 15, secondsDeadline: 45 }
       ],
       nextId: 7,
       filterValue: 'all'
@@ -67,18 +67,24 @@ class App extends Component {
 
   
 
-  onTaskCreate(taskName) {
+  onTaskCreate(taskName, minutesEstimation, secondsEstimation) {
     let nameOfTask = taskName;
     if(nameOfTask === null || nameOfTask === undefined) return;
     nameOfTask = nameOfTask.trim();
     if(nameOfTask === '' ) return;
+    const mins = Number.isNaN(minutesEstimation) ? 0 : minutesEstimation;
+    let secs = Number.isNaN(secondsEstimation) ? 0 : secondsEstimation;
+
+    if(secs >= 60) secs = 59;
 
     this.setState((oldState) => ({
           tasks: [...oldState.tasks, {
             id: oldState.nextId,
             state: '',
             label: taskName,
-            date: new Date()
+            date: new Date(),
+            minutesDeadline: mins,
+            secondsDeadline: secs
           }],
           nextId: oldState.nextId + 1
     }));
@@ -124,6 +130,16 @@ class App extends Component {
     this.setState({ filterValue: newFilterValue });
   };
 
+  onTaskSetDeadLine = (taskId, mins, secs) => {
+    this.setState(oldState => ({
+      tasks: oldState.tasks.map(task => task.id !== taskId ? task : {
+        ...task,
+        minutesDeadline: mins,
+        secondsDeadline: secs
+      })
+    }));
+  };
+
   render() {
     const { tasks } = this.state;
       const uncompletedTasksCount = tasks.filter(task => task.state !== 'completed').length;
@@ -149,7 +165,8 @@ class App extends Component {
                 onDelited = { this.deleteTask }
                 onTaskEdit = { this.onTaskEdit }
                 onTaskLabelUpdate = {this.onTaskLabelUpdate}
-                onTaskEditCancel={this.onTaskEditCancel} />
+                onTaskEditCancel={this.onTaskEditCancel}
+                onTaskSetDeadLine={this.onTaskSetDeadLine} />
               <Footer
                 uncompletedTasksCount={uncompletedTasksCount}
                 onClearCompleted={this.onClearCompleted}
