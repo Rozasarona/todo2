@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import './Timer.css';
 
 class Timer extends React.Component {
+
+    componentWillUnmount() {
+        this.onPause();
+    }
+
     onPlay = () => {
         if (this.interval) return;
         this.interval = setInterval(() => {
