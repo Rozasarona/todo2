@@ -16,3 +16,7 @@
 .icon-play:after {
 	content: '▶';
 }
+
+.label-time {
+	margin-left: 10px;
+} 

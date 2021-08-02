@@ -63,8 +63,6 @@ class Task extends Component {
     const { id, label, onTaskEdit } = this.props;
     this.setState({ currentTaskName: label });
     onTaskEdit(id);
-
-   
   };
 
   tryRenderEditButton = () => {
@@ -81,20 +79,20 @@ class Task extends Component {
     return null;
   };
 
-  onSetDeadLine = (mins, secs) => {
+  onSetDeadLine = (secs) => {
     const { id, onTaskSetDeadLine } = this.props;
-    onTaskSetDeadLine(id, mins, secs);
+    onTaskSetDeadLine(id, secs);
   };
 
   render() {
-    const { date, label, state, minutesDeadline, secondsDeadline } = this.props;
+    const { date, label, state, secondsDeadline } = this.props;
     return (
       <li className= { state }>
               <div className="view">
                 <input onChange = { this.onCheckboxChange } className="toggle" type="checkbox" checked = {state === 'completed'} />
                 <label>
                   <span className="title">{ label }</span>
-                  <Timer mins={minutesDeadline} secs={secondsDeadline} onSetDeadLine={this.onSetDeadLine} />
+                  <Timer secs={secondsDeadline} onSetDeadLine={this.onSetDeadLine} />
                   <span className="description">created { formatDistanceToNow(date)} ago</span>
                 </label>
                 {this.tryRenderEditButton()}
@@ -114,7 +112,6 @@ Task.propTypes = {
   state: PropTypes.oneOf([ '', 'editing', 'completed' ]).isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   label: PropTypes.string.isRequired,
-  minutesDeadline: PropTypes.number.isRequired,
   secondsDeadline: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   onTaskEdit: PropTypes.func.isRequired,

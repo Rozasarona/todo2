@@ -10,10 +10,10 @@ class App extends Component {
     super();
     this.state = {
       tasks: [
-        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий', date: new Date(), minutesDeadline: 0, secondsDeadline: 0 },
-        { id: 2, state: '', label: 'Купить подарки', date: new Date(), minutesDeadline: 5, secondsDeadline: 0 },
-        { id: 3, state: '', label: 'Помыть котэ', date: new Date(), minutesDeadline: 10, secondsDeadline: 30 },
-        { id: 4, state: '', label: 'Сделать 50 отжиманий', date: new Date(), minutesDeadline: 15, secondsDeadline: 45 }
+        { id: 1, state: 'completed', label: 'Сделать 50 отжиманий', date: new Date(), secondsDeadline: 0 },
+        { id: 2, state: '', label: 'Купить подарки', date: new Date(), secondsDeadline: 300 },
+        { id: 3, state: '', label: 'Помыть котэ', date: new Date(), secondsDeadline: 630 },
+        { id: 4, state: '', label: 'Позавтракать', date: new Date(), secondsDeadline: 945 }
       ],
       nextId: 7,
       filterValue: 'all'
@@ -32,21 +32,17 @@ class App extends Component {
     const newTasks = tasks.map((item) => {
       if(item.id === taskId) {
         return newTask;
-
-        
-      } 
+      }
         if(item.state === 'editing') {
           const newItem = { ...item };
             newItem.state = '';
             return newItem;
         }
         return item;
-      
     });
 
     this.setState({tasks: newTasks});
   }
-
 
 
   onTaskCheckboxChange(taskId) {
@@ -65,7 +61,6 @@ class App extends Component {
       }))
   }
 
-  
 
   onTaskCreate(taskName, minutesEstimation, secondsEstimation) {
     let nameOfTask = taskName;
@@ -83,8 +78,7 @@ class App extends Component {
             state: '',
             label: taskName,
             date: new Date(),
-            minutesDeadline: mins,
-            secondsDeadline: secs
+            secondsDeadline: mins * 60 + secs
           }],
           nextId: oldState.nextId + 1
     }));
@@ -130,11 +124,10 @@ class App extends Component {
     this.setState({ filterValue: newFilterValue });
   };
 
-  onTaskSetDeadLine = (taskId, mins, secs) => {
+  onTaskSetDeadLine = (taskId, secs) => {
     this.setState(oldState => ({
       tasks: oldState.tasks.map(task => task.id !== taskId ? task : {
         ...task,
-        minutesDeadline: mins,
         secondsDeadline: secs
       })
     }));

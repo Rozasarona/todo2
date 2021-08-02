@@ -12,16 +12,14 @@ class Timer extends React.Component {
     onPlay = () => {
         if (this.interval) return;
         this.interval = setInterval(() => {
-            const { mins, secs, onSetDeadLine } = this.props;
-            let newSecs = secs !== 0 ? secs - 1 : 59;
-            let newMins = newSecs === 59 ? mins - 1 : mins;
-            if (newMins === -1) {
-                newMins = 0;
+            const { secs, onSetDeadLine } = this.props;
+            let newSecs = secs - 1;
+            if (newSecs === -1) {
                 newSecs = 0;
                 clearInterval(this.interval);
                 this.interval = null;
             }
-            onSetDeadLine(newMins, newSecs);
+            onSetDeadLine(newSecs);
         }, 1000);
     };
 
@@ -31,18 +29,23 @@ class Timer extends React.Component {
         this.interval = null;
     };
 
+    formatTime = (seconds) => {
+        const secondsPart = seconds % 60;
+        const minutesPart = (seconds - secondsPart) / 60;
+        return `${String(minutesPart).padStart(2, '0')}:${String(secondsPart).padStart(2, '0')}`;
+    };
+
     render() {
-        const { mins, secs } = this.props;
+        const { secs } = this.props;
         return (<span className="description">
         <button type="button" className="icon icon-play" aria-label="Start Timer" onClick={this.onPlay} />
         <button type="button" className="icon icon-pause" aria-label="Pause Timer" onClick={this.onPause} />
-        {` ${mins}:${secs} `}
+        <span className="label-time">{this.formatTime(secs)}</span>
     </span>);
     }
 }
 
 Timer.propTypes = {
-    mins: PropTypes.number.isRequired,
     secs: PropTypes.number.isRequired,
     onSetDeadLine: PropTypes.func.isRequired
 };

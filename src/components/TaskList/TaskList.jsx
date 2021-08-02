@@ -4,14 +4,13 @@ import './TaskList.css';
 import Task from '../Task/Task'
 
 function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, onTaskLabelUpdate, onTaskEditCancel, onTaskSetDeadLine }) {
-    
+
     return (
         <ul className="todo-list">
           {tasksArray.map((item) => (
               <Task
                 state={item.state}
                 label={item.label}
-                minutesDeadline={item.minutesDeadline}
                 secondsDeadline={item.secondsDeadline}
                 id = {item.id}
                 key = {item.id}
