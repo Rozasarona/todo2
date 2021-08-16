@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TaskList.css';
-import Task from '../Task/Task'
+import TaskWithHooks from '../Task/Task'
 
 function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, onTaskLabelUpdate, onTaskEditCancel, onTaskSetDeadLine }) {
 
     return (
         <ul className="todo-list">
           {tasksArray.map((item) => (
-              <Task
+              <TaskWithHooks
                 state={item.state}
                 label={item.label}
                 secondsDeadline={item.secondsDeadline}
