@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './TaskList.css';
-import TaskWithHooks from '../Task/Task'
+import TaskWithHooks from '../Task/TaskWithHooks';
 
 function TaskList({ tasksArray,  onTaskCheckboxChange, onDelited, onTaskEdit, onTaskLabelUpdate, onTaskEditCancel, onTaskSetDeadLine }) {
 

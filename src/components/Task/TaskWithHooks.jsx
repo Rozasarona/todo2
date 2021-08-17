@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns';
 
-import Timer from '../Timer/Timer';
+import TimerWithHooks from '../Timer/TimerWithHooks';
 
 import './Task.css';
 
@@ -10,7 +10,23 @@ import './Task.css';
 function TaskWithHooks({ date, label, state, secondsDeadline, id, onTaskEditCancel, onTaskLabelUpdate, onTaskCheckboxChange, onDelited, onTaskEdit, onTaskSetDeadLine }) {
     const [currentTaskName, setCurrentTaskName] = useState('');
 
-    tryRenderInput = () => {
+    const onEditInputKeyDown = event => {
+        if(event.keyCode === 27) {
+        setCurrentTaskName('');
+        onTaskEditCancel(id);
+        }
+    };
+
+    const onEditChange = event => {
+        setCurrentTaskName(event.target.value);
+    };
+
+    const onEditSubmit = (event) => {
+        event.preventDefault();
+        onTaskLabelUpdate(id, currentTaskName);
+    };
+
+    const tryRenderInput = () => {
         if (state === 'editing') {
             return (
                 <form onSubmit={onEditSubmit}>
@@ -26,36 +42,20 @@ function TaskWithHooks({ date, label, state, secondsDeadline, id, onTaskEditCanc
         return null;
     };
 
-    onEditInputKeyDown = event => {
-        if(event.keyCode === 27) {
-        setCurrentTaskName('');
-        onTaskEditCancel(id);
-        }
-    };
-
-    onEditChange = event => {
-        setCurrentTaskName(event.target.value);
-    };
-
-    onEditSubmit = (event) => {
-        event.preventDefault();
-        onTaskLabelUpdate(id, currentTaskName);
-    };
-
-    onCheckboxChange = () => {
+    const onCheckboxChange = () => {
         onTaskCheckboxChange(id);
     };
 
-    deleteTask = () => {
+    const deleteTask = () => {
         onDelited(id);
     };
 
-    onClickEdit = () => {
+    const onClickEdit = () => {
         setCurrentTaskName(label);
         onTaskEdit(id);
     };
 
-    tryRenderEditButton = () => {
+    const tryRenderEditButton = () => {
         if(state !== 'completed') {
             return(
                 <button
@@ -68,31 +68,29 @@ function TaskWithHooks({ date, label, state, secondsDeadline, id, onTaskEditCanc
         return null;
     };
 
-    onSetDeadLine = (secs) => {
+    const onSetDeadLine = (secs) => {
         onTaskSetDeadLine(id, secs);
     };
 
-    render() {
-        return (
-            <li className= { state }>
-                    <div className="view">
-                        <input onChange = { onCheckboxChange } className="toggle" type="checkbox" checked = {state === 'completed'} />
-                        <label>
-                        <span className="title">{ label }</span>
-                        <Timer secs={ secondsDeadline } onSetDeadLine={ onSetDeadLine } />
-                        <span className="description">created { formatDistanceToNow(date) } ago</span>
-                        </label>
-                        { tryRenderEditButton() }
-                        <button
-                        type="button"
-                        aria-label="Delete task"
-                        className="icon icon-destroy"
-                        onClick = { deleteTask } />
-                    </div>
-                    { tryRenderInput() }
-            </li>
-        );
-    }
+    return (
+        <li className= { state }>
+                <div className="view">
+                    <input onChange = { onCheckboxChange } className="toggle" type="checkbox" checked = {state === 'completed'} />
+                    <label>
+                    <span className="title">{ label }</span>
+                    <TimerWithHooks secs={ secondsDeadline } onSetDeadLine={ onSetDeadLine } />
+                    <span className="description">created { formatDistanceToNow(date) } ago</span>
+                    </label>
+                    { tryRenderEditButton() }
+                    <button
+                    type="button"
+                    aria-label="Delete task"
+                    className="icon icon-destroy"
+                    onClick = { deleteTask } />
+                </div>
+                { tryRenderInput() }
+        </li>
+    );
 }
 
 TaskWithHooks.propTypes = {
@@ -109,4 +107,4 @@ TaskWithHooks.propTypes = {
     onTaskSetDeadLine: PropTypes.func.isRequired
 };
 
-export default Task;
+export default TaskWithHooks;
